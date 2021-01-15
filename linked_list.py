@@ -171,15 +171,11 @@ class LinkedList:
     
     def merge(self, other):
         # merge the two lists
-        # l1: A-D-F
-        # l2: B-C-H-J
-        # ouput: A-B-C-D-F-H-J->nil
         new_list = LinkedList(None)
         a = self.head
         b = other.head 
         while a is not None or b is not None:
             if a is not None and b is not None:
-                # if a is less than or equal to b, add it to new_list
                 if a.compare(b.item) <= 0:
                     new_list.add_to_list(a.item)
                     a = a.next 
@@ -221,62 +217,43 @@ if __name__ == "__main__":
     music_list.add_to_list(vsq_strung_out_vol9)
 
     print(f"Count of list: {len(music_list)}")
-
     print_music_list(music_list)
-
     music_list.sort()
-
-    print(f"\n#\n#\n#\nPost Sort:\n")
-
+    print(f"\n\nPost Sort:\n")
     print_music_list(music_list)
-
     music_list.delete(the_bends)
-
-    print(f"Delete the_bends")
-
+    print(f"\nDelete the_bends")
     print_music_list(music_list)
-
     music_list.delete(american_idiot)
-
-    print(f"Delete american_idiot")
-
-    print_music_list(music_list)
-    
-    
+    print(f"\nDelete american_idiot")
+    print_music_list(music_list)    
     music_list.insert(american_idiot, crash)
-
-    print(f"Inserted america_idiot before crash...")
-
+    print(f"\nInserted america_idiot before crash...")
     print_music_list(music_list)
-    
-    print(f"Inserted the_bends before vsq_strung_out...")
-
+    print(f"\nInserted the_bends before vsq_strung_out...")
     music_list.insert(the_bends, vsq_strung_out_vol9)
-
     print_music_list(music_list)
-
     music_list.sort()
-
-    print(f"Sort it again....")
-
+    print(f"\nSort it again....")
     print_music_list(music_list)
 
-
+    # Test out Merge capability
+    print(f"\n\nTest out merge capability (by title)")
     tmp = LinkedList(None)
-
     tmp.add_to_list(MusicCD("A", "A", 1, 1))
     tmp.add_to_list(MusicCD("C", "C", 2, 2))
     tmp.add_to_list(MusicCD("E", "H", 1, 1))
     tmp.add_to_list(MusicCD("E", "J", 2, 2))
-    
+    print("\ntmp 1 list:")
+    print_music_list(tmp)
     tmp2 = LinkedList(None)
-
     tmp2.add_to_list(MusicCD("B", "B", 1, 1))
     tmp2.add_to_list(MusicCD("D", "D", 2, 2))
     tmp2.add_to_list(MusicCD("G", "G", 2, 2))
-
+    print("\ntmp 2 list:")
+    print_music_list(tmp2)
+    print("\nAfter merging tmp1 and tmp2 (by title)")
     tmp.merge(tmp2)
-
     print_music_list(tmp)
 
 ###CodeSnippetEnd-music-cd-list-part1-a###
