@@ -13,7 +13,7 @@
 ### Priority Queue - insert into middle
 ### Queue
 
-###CodeSnippet-music-cd-list-part1-a###
+###CodeSnippet-linked_list_snippet1a###
 class MusicCD:
     def __init__(self, artist, title, year, cdid):
         self.artist = artist
@@ -199,9 +199,7 @@ def print_music_list(music_list):
         print(f"CD: {cd.item}")
 
 if __name__ == "__main__":
-
     music_list = LinkedList(None)
-
     kid_a = MusicCD("Radiohead", "Kid A", 2000, 1)
     the_bends = MusicCD("Radiohead", "The Bends", 1995, 2)
     the_king_of_limbs = MusicCD("Radiohead", "The King of Limbs - Live from the Basement", 2011, 3)
@@ -256,7 +254,7 @@ if __name__ == "__main__":
     tmp.merge(tmp2)
     print_music_list(tmp)
 
-###CodeSnippetEnd-music-cd-list-part1-a###
+###CodeSnippetEnd-linked_list_snippet1a###
 
 
 
