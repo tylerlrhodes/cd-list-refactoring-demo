@@ -13,7 +13,7 @@
 ### Priority Queue - insert into middle
 ### Queue
 
-
+###CodeSnippet-music-cd-list-part1-a###
 class MusicCD:
     def __init__(self, artist, title, year, cdid):
         self.artist = artist
@@ -168,6 +168,35 @@ class LinkedList:
                 return n, prev 
             prev = n  
         return None
+    
+    def merge(self, other):
+        # merge the two lists
+        # l1: A-D-F
+        # l2: B-C-H-J
+        # ouput: A-B-C-D-F-H-J->nil
+        new_list = LinkedList(None)
+        a = self.head
+        b = other.head 
+        while a is not None or b is not None:
+            if a is not None and b is not None:
+                # if a is less than or equal to b, add it to new_list
+                if a.compare(b.item) <= 0:
+                    new_list.add_to_list(a.item)
+                    a = a.next 
+                else:
+                    new_list.add_to_list(b.item)
+                    b = b.next 
+            elif a is not None:
+                while a is not None:
+                    new_list.add_to_list(a.item)
+                    a = a .next 
+            else:
+                while b is not None:
+                    new_list.add_to_list(b.item)
+                    b = b.next        
+        self.head = new_list.head
+
+
 
 def print_music_list(music_list):
     for cd in music_list:
@@ -233,13 +262,25 @@ if __name__ == "__main__":
     print_music_list(music_list)
 
 
-    # music_list.reverse()
+    tmp = LinkedList(None)
 
-    # print_music_list(music_list)
+    tmp.add_to_list(MusicCD("A", "A", 1, 1))
+    tmp.add_to_list(MusicCD("C", "C", 2, 2))
+    tmp.add_to_list(MusicCD("E", "H", 1, 1))
+    tmp.add_to_list(MusicCD("E", "J", 2, 2))
+    
+    tmp2 = LinkedList(None)
 
-    # music_list.reverse_recur()
+    tmp2.add_to_list(MusicCD("B", "B", 1, 1))
+    tmp2.add_to_list(MusicCD("D", "D", 2, 2))
+    tmp2.add_to_list(MusicCD("G", "G", 2, 2))
 
-    # print_music_list(music_list)
+    tmp.merge(tmp2)
+
+    print_music_list(tmp)
+
+###CodeSnippetEnd-music-cd-list-part1-a###
+
 
 
 
