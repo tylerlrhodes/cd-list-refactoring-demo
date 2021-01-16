@@ -13,7 +13,10 @@
 ### Priority Queue - insert into middle
 ### Queue
 
-###CodeSnippet-linked_list_snippet1a###
+###CodeSnippet-linked_list_snippet1b###
+
+import unittest
+
 class MusicCD:
     def __init__(self, artist, title, year, cdid):
         self.artist = artist
@@ -192,100 +195,4 @@ class LinkedList:
                     b = b.next        
         self.head = new_list.head
 
-
-
-def print_music_list(music_list):
-    for cd in music_list:
-        print(f"CD: {cd.item}")
-
-if __name__ == "__main__":
-    music_list = LinkedList(None)
-    kid_a = MusicCD("Radiohead", "Kid A", 2000, 1)
-    the_bends = MusicCD("Radiohead", "The Bends", 1995, 2)
-    the_king_of_limbs = MusicCD("Radiohead", "The King of Limbs - Live from the Basement", 2011, 3)
-    crash = MusicCD("Dave Matthews Band", "Crash", 1996, 4)
-    american_idiot = MusicCD("Green Day", "American Idiot", 2004, 5)
-    vsq_strung_out_vol9 = MusicCD("Vitamin String Quartet", "Strung Out, Vol. 9: VSQ Performs Music's Biggest Hits", 2008, 6)
-
-    music_list.add_to_list(kid_a)
-    music_list.add_to_list(the_bends)
-    music_list.add_to_list(the_king_of_limbs)
-    music_list.add_to_list(crash)
-    music_list.add_to_list(american_idiot)
-    music_list.add_to_list(vsq_strung_out_vol9)
-
-    print(f"Count of list: {len(music_list)}")
-    print_music_list(music_list)
-    music_list.sort()
-    print(f"\n\nPost Sort:\n")
-    print_music_list(music_list)
-    music_list.delete(the_bends)
-    print(f"\nDelete the_bends")
-    print_music_list(music_list)
-    music_list.delete(american_idiot)
-    print(f"\nDelete american_idiot")
-    print_music_list(music_list)    
-    music_list.insert(american_idiot, crash)
-    print(f"\nInserted america_idiot before crash...")
-    print_music_list(music_list)
-    print(f"\nInserted the_bends before vsq_strung_out...")
-    music_list.insert(the_bends, vsq_strung_out_vol9)
-    print_music_list(music_list)
-    music_list.sort()
-    print(f"\nSort it again....")
-    print_music_list(music_list)
-
-    # Test out Merge capability
-    print(f"\n\nTest out merge capability (by title)")
-    tmp = LinkedList(None)
-    tmp.add_to_list(MusicCD("A", "A", 1, 1))
-    tmp.add_to_list(MusicCD("C", "C", 2, 2))
-    tmp.add_to_list(MusicCD("E", "H", 1, 1))
-    tmp.add_to_list(MusicCD("E", "J", 2, 2))
-    print("\ntmp 1 list:")
-    print_music_list(tmp)
-    tmp2 = LinkedList(None)
-    tmp2.add_to_list(MusicCD("B", "B", 1, 1))
-    tmp2.add_to_list(MusicCD("D", "D", 2, 2))
-    tmp2.add_to_list(MusicCD("G", "G", 2, 2))
-    print("\ntmp 2 list:")
-    print_music_list(tmp2)
-    print("\nAfter merging tmp1 and tmp2 (by title)")
-    tmp.merge(tmp2)
-    print_music_list(tmp)
-
-###CodeSnippetEnd-linked_list_snippet1a###
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Test 1 item in list
-# Test Empty list
-# Test 2 item list
-# test 10 items list
-
-
-
-
-
-
-
-
-
-
-
-
-# Double Linked List
-
-
-# LISP Style : CAR CDR 
+###CodeSnippetEnd-linked_list_snippet1b###
