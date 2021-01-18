@@ -1,17 +1,4 @@
 
-# __str__
-
-# Standard Linked List
-### Interface for display
-### Interface for sort
-### Interface for search
-
-#### Sort a linked list in place
-
-### Linked List Uses
-### Constant time insertion
-### Priority Queue - insert into middle
-### Queue
 
 ###CodeSnippet-linked_list_snippet1b###
 
