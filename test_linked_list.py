@@ -22,8 +22,6 @@ class TestLinkedList(unittest.TestCase):
             assert items[idx].title == val.item.title
 
     def _gen_tmp_list(self):
-        #use randomly numbered titles
-        #option for a configured number of items to generate
         tmp = LinkedList(None)
         i1 = Item("a")
         i2 = Item("b")
@@ -124,15 +122,11 @@ class TestLinkedList(unittest.TestCase):
         tmp.add_to_list(Item("b"))
         tmp.add_to_list(Item("c"))
         assert tmp.count() == 3
-        # iterate and check order of items
         titles_correct = ["a", "b", "c"]
         for idx, val in enumerate(tmp):
             assert titles_correct[idx] == val.item.title 
 
     def test_delete(self):
-        # check delete from end
-        # check delete from middle
-        # check delete from head
         tmp, items = self._gen_tmp_list()
         tmp.delete(items[2])
         items.remove(items[2])
