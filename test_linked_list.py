@@ -1,6 +1,6 @@
 
 
-###CodeSnippet-linked_list_snippet1b###
+###CodeSnippet-test_linked_list_snippet1a###
 import unittest
 from linked_list import LinkedList, Node
 
@@ -141,4 +141,4 @@ class TestLinkedList(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-###CodeSnippetEnd-linked_list_snippet1b###
+###CodeSnippetEnd-test_linked_list_snippet1a###
