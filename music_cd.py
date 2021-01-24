@@ -2,7 +2,7 @@
 
 class MusicCD:
     """ Music CD Item for Linked LIst """
-    def __init__(self, artist, title, year, cdid):
+    def __init__(self, title, artist, year, cdid):
         self.artist = artist
         self.title = title
         self.year = year

@@ -2,16 +2,16 @@
 
 import os
 import csv
+import threading
 from pathlib import Path
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import Response
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from linked_list import LinkedList
 from music_cd import MusicCD
-
-
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
@@ -21,14 +21,23 @@ ALLOWED_EXTENSIONS = {'csv'}
 
 app.config['UPLOAD_FOLDER'] = Path(UPLOAD_FOLDER)
 
+lock = threading.Lock()
 cds = LinkedList(None)
 cds.add_to_list(MusicCD("Radiohead", "Kid A", 2006, 0))
 cds.add_to_list(MusicCD("Radiohead", "The Bends", 2006, 1))
 cds.add_to_list(MusicCD("Dave Matthews Band", "Under the Table and Dreaming", 2002, 2))
-
 current_csv_file = None
 
+def lock_it(func):
+    """ Thread Safety for CDs and CSV File... """
+    def wrapper():
+        with lock:
+            return func()
+    wrapper.__name__ = func.__name__
+    return wrapper
+
 @app.route('/GetCDS')
+@lock_it
 def get_cds():
     """ API Endpoint for getting CD List """
     cd_list = []
@@ -36,7 +45,21 @@ def get_cds():
         cd_list.append([cd.item.title, cd.item.artist, cd.item.year, cd.item.cdid])
     return jsonify(cd_list)
 
+@app.route('/DownloadCSV')
+@lock_it
+def download_csv():
+    def gen():
+        yield 'artist, title, year' + '\n'
+        cd_list = []
+        for cd in cds:
+            cd_list.append([cd.item.title, cd.item.artist, str(cd.item.year)])
+        for row in cd_list:
+            yield ','.join(row) + '\n'
+    return Response(gen(), mimetype='text/csv', headers={
+        "Content-disposition":"attachment; filename=cds.csv"})
+
 @app.route('/AddCD', methods = ['POST'])
+@lock_it
 def add_cd():
     """ API Endpoint for adding a CD """
     try:
@@ -69,6 +92,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/UploadCSV', methods=['POST'])
+@lock_it
 def upload_file():
     global current_csv_file
     if request.method == 'POST':
