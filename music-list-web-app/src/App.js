@@ -19,7 +19,6 @@ class App extends Component {
     var response = await fetch(GetCDs)
     var json = await response.json()
     this.setState({cds: json})
-    console.log(this.state)
   }
   render() {
     return (

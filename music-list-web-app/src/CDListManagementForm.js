@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { UploadCSVFile, DownloadCSVFile } from './global'
+import { UploadCSVFile, DownloadCSVFile, AddCD } from './global'
 
 class CDListManagementForm extends Component {
     constructor(props){
@@ -30,9 +30,15 @@ class CDListManagementForm extends Component {
     }
     async handleSubmit(event) {
       event.preventDefault();
-      console.log(this.state.artist);
-      console.log(this.state.title);
-      console.log(this.state.year);
+      await fetch(AddCD, {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(this.state)
+      });
+      this.props.onUpload();
     }
     async downloadFile(event) {
         let res = await fetch(DownloadCSVFile, {
@@ -92,21 +98,21 @@ class CDListManagementForm extends Component {
               </div>
               <hr />
               <div className="form-row">
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-12">
                   <label>Artist</label>
                   <input type="text" value={this.state.artist} className="form-control" 
                          name="artist" onChange={this.handleInputChange} />
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group col-md-5">
+                <div className="form-group col-md-12">
                   <label>Title</label>
                   <input type="text" value={this.state.title} className="form-control" 
                          name="title" onChange={this.handleInputChange} />
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group col-md-2">
+                <div className="form-group col-md-3">
                   <label>Year</label>
                   <input type="text" value={this.state.year} className="form-control" 
                          name="year" onChange={this.handleInputChange} />
