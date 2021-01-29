@@ -26,7 +26,6 @@ cds = LinkedList(None)
 cds.add_to_list(MusicCD("Radiohead", "Kid A", 2006, 0))
 cds.add_to_list(MusicCD("Radiohead", "The Bends", 2006, 1))
 cds.add_to_list(MusicCD("Dave Matthews Band", "Under the Table and Dreaming", 2002, 2))
-current_csv_file = None
 
 def lock_it(func):
     """ Thread Safety for CDs and CSV File... """
@@ -76,7 +75,7 @@ def add_cd():
     return f"{json}"
 
 
-def update_cd_list_from_csv():
+def update_cd_list_from_csv(current_csv_file):
     global cds
     with open(current_csv_file, newline='') as f:
         new_list = LinkedList(None)
@@ -94,7 +93,6 @@ def allowed_file(filename):
 @app.route('/UploadCSV', methods=['POST'])
 @lock_it
 def upload_file():
-    global current_csv_file
     if request.method == 'POST':
         # check if the post request has the file part
         if 'csvfile' not in request.files:
@@ -108,5 +106,5 @@ def upload_file():
             filename = secure_filename(file.filename)
             current_csv_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(current_csv_file)
-            update_cd_list_from_csv()
+            update_cd_list_from_csv(current_csv_file)
             return jsonify({'Result': True})
