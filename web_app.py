@@ -46,7 +46,7 @@ def download_csv():
         yield 'artist, title, year' + '\n'
         cd_list = []
         for cd in store:
-            cd_list.append([cd.title, cd.artist, str(cd.year)])
+            cd_list.append([f'"{cd.title}"', f'"{cd.artist}"', f'"{str(cd.year)}"'])
         for row in cd_list:
             yield ','.join(row) + '\n'
     return Response(gen(), mimetype='text/csv', headers={
