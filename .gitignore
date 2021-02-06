@@ -53,3 +53,6 @@ nodeLanguageServer.*/**
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+
+
+uploads/**

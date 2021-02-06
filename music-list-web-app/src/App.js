@@ -4,7 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import CDListManagementForm from './CDListManagementForm'
 import CDListView from './CDListView'
-import { GetCDs } from './global'
+import { GetCDsURL } from './global'
 
 class App extends Component {
   constructor(props){
@@ -16,7 +16,7 @@ class App extends Component {
     await this.getCds();
   }
   async getCds() {
-    var response = await fetch(GetCDs)
+    var response = await fetch(GetCDsURL)
     var json = await response.json()
     this.setState({cds: json})
   }

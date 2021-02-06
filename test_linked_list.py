@@ -104,21 +104,63 @@ class TestLinkedList(unittest.TestCase):
 
     @staticmethod
     def test_insert():
-        """ Test inserting an item into the linked list """
+        """ Test inserting an item into the linked list (MutableSequence) """
+        ## This tests a MutableSequene Override
         tmp, [i1, i2, i3] = TestLinkedList._gen_tmp_list()
         i4 = Item("d")
-        tmp.insert(i4, i2)
-        TestLinkedList._validate_list(tmp, [i1, i4, i2, i3])
+        tmp.insert(3, i4)
+        TestLinkedList._validate_list(tmp, [i1, i2, i3, i4])
         i5 = Item("e")
-        tmp.insert(i5, i1)
-        TestLinkedList._validate_list(tmp, [i5, i1, i4, i2, i3])
+        tmp.insert(0, i5)
+        TestLinkedList._validate_list(tmp, [i5, i1, i2, i3, i4])
+        i6 = Item("f")
+        tmp.insert(2, i6)
+        TestLinkedList._validate_list(tmp, [i5, i1, i6, i2, i3, i4])
 
     @staticmethod
-    def test_count():
-        """ Test getting a count of items """
-        tmp, items = TestLinkedList._gen_tmp_list()
-        assert tmp.count() == len(items), "Expected equal lengths"
-        assert len(tmp) == len(items), "Expected equal lengths"
+    def test_del_item():
+        """ Test MutableSequence del item """
+        tmp, [_, i2, _] = TestLinkedList._gen_tmp_list()
+        del tmp[0]
+        assert len(tmp) == 2
+        i4 = Item("d")
+        tmp.insert(len(tmp), i4)
+        del tmp[1]
+        assert len(tmp) == 2
+        tmp.insert(len(tmp), Item("e"))
+        del tmp[2]
+        assert len(tmp) == 2
+        TestLinkedList._validate_list(tmp, [i2, i4])
+        tmp.remove(i2)
+        TestLinkedList._validate_list(tmp, [i4])
+
+    @staticmethod
+    def test_get_item():
+        """ Test MutableSequence __getitem__ """
+        tmp, [i1, i2, i3] = TestLinkedList._gen_tmp_list()
+        assert i1.title == tmp[0].title
+        assert i2.title == tmp[1].title
+        assert i3.title == tmp[2].title
+        TestLinkedList._validate_list(tmp, [i1, i2, i3])
+
+    @staticmethod
+    def test_set_item():
+        """ Test MutableSequence __getitem__ """
+        tmp, [i1, i2, i3] = TestLinkedList._gen_tmp_list()
+        tmp[0].title = "z"
+        tmp[1].title = "l"
+        tmp[2].title = "q"
+        assert tmp[0].title == "z"
+        assert tmp[1].title == "l"
+        assert tmp[2].title == "q"
+        TestLinkedList._validate_list(tmp, [i1, i2, i3])
+    # count is not the best method to have here
+    # @staticmethod
+    # def test_count():
+    #     """ Test getting a count of items """
+    #     tmp, items = TestLinkedList._gen_tmp_list()
+    #     assert tmp.count() == len(items), "Expected equal lengths"
+    #     assert len(tmp) == len(items), "Expected equal lengths"
 
     @staticmethod
     def test_merge():
@@ -140,10 +182,10 @@ class TestLinkedList(unittest.TestCase):
         """ Test adding an item to the linked list """
         tmp = LinkedList(None)
         tmp.add_to_list(Item("a"))
-        assert tmp.count() == 1
+        assert len(tmp) == 1
         tmp.add_to_list(Item("b"))
         tmp.add_to_list(Item("c"))
-        assert tmp.count() == 3
+        assert len(tmp) == 3
         titles_correct = ["a", "b", "c"]
         for idx, val in enumerate(tmp):
             assert titles_correct[idx] == val.item.title

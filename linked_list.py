@@ -1,5 +1,7 @@
 """ Linked List Implementation """
 
+from collections.abc import MutableSequence
+
 ###CodeSnippet-linked_list_snippet1b###
 class Node:
     """ Node class """
@@ -12,11 +14,86 @@ class Node:
         return self.item.comparator(other)
 
 
-class LinkedList:
+class LinkedList(MutableSequence):
     """ LinkedList Class """
     def __init__(self, node):
         self.head = node
         self._ptr = None
+
+    def __delitem__(self, index):
+        # set the previous item's next to the item at the index's next
+        if index == 0:
+            if self.head is None:
+                raise Exception("No item to delete")
+            self.head = self.head.next
+            return
+        prev = None
+        cur = self.head
+        i = 0
+        while i < index and cur is not None:
+            prev = cur
+            cur = cur.next
+            i += 1
+        if i != index and cur is None:
+            raise Exception("Index out of range")
+        prev.next = cur.next
+
+    def __setitem__(self, index, value):
+        i = 0
+        cur = self.head
+        while i != index and cur is not None:
+            cur = cur.next
+            i += 1
+        if cur is None or i != index:
+            raise Exception("Invalid index")
+        cur.item = value
+        #self.seq.__setitem__(index, value)
+
+    def insert(self, index, value):
+        # set new nodes's next to prev.next
+        # set prev.next to new node with value
+        # needs error checking!  index 1 and head null will fail
+        if index == 0:
+            n = Node(value)
+            n.next = self.head
+            self.head = n
+            return
+        prev = None
+        cur = self.head
+        i = 0
+        while cur is not None and i != index:
+            prev = cur
+            cur = cur.next
+            i += 1
+        n = Node(value)
+        n.next = prev.next
+        prev.next = n
+        #self.seq.insert(index, value)
+
+    def __getitem__(self, index):
+        if index > len(self) - 1:
+            # this appears to be required when sorted is called
+            # on the LinkedList!
+            raise IndexError
+        i = 0
+        cur = self.head
+        while i != index and cur is not None:
+            cur = cur.next
+            i += 1
+        if i != index:
+            raise Exception("Error on index")
+        if cur is not None:
+            return cur.item
+        return None
+
+    def __len__(self):
+        """ Return count """
+        i = 0
+        p = self.head
+        while p is not None:
+            i += 1
+            p = p.next
+        return i
 
     def __iter__(self):
         self._ptr = self.head
@@ -91,7 +168,7 @@ class LinkedList:
         else:
             prev.next = n.next
 
-    def insert(self, item_to_insert, item_after):
+    def insert_after(self, item_to_insert, item_after):
         """ insert before item """
         n, prev = self.find_node(item_after)
         if n is None:
@@ -107,8 +184,8 @@ class LinkedList:
             prev.next = node
             node.next = n
 
-    def __len__(self):
-        return self.count()
+    # def __len__(self):
+    #     return self.count()
 
     def __swap(self, prev, a , b):
         self.__swap_adjacent(prev, a, b)
@@ -123,15 +200,6 @@ class LinkedList:
             prev.next = b
         else:
             self.head = b
-
-    def count(self):
-        """ Return count """
-        i = 0
-        p = self.head
-        while p is not None:
-            i += 1
-            p = p.next
-        return i
 
     def find_node(self, item):
         """ Finds a node """

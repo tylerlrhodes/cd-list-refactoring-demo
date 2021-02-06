@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { UploadCSVFile, DownloadCSVFile, AddCD } from './global'
+import { UploadCSVFileURL, DownloadCSVFileURL, AddCDURL } from './global'
 
 class CDListManagementForm extends Component {
     constructor(props){
@@ -30,7 +30,7 @@ class CDListManagementForm extends Component {
     }
     async handleSubmit(event) {
       event.preventDefault();
-      await fetch(AddCD, {
+      await fetch(AddCDURL, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -41,7 +41,7 @@ class CDListManagementForm extends Component {
       this.props.onUpload();
     }
     async downloadFile(event) {
-        let res = await fetch(DownloadCSVFile, {
+        let res = await fetch(DownloadCSVFileURL, {
             method: 'GET'
         });
         let blob = await res.blob();
@@ -61,7 +61,7 @@ class CDListManagementForm extends Component {
       var formData = new FormData();
       formData.append('csvfile', upload.files[0]);
   
-      await fetch(UploadCSVFile, {
+      await fetch(UploadCSVFileURL, {
         method: 'POST',
         header: {
           "Content-Type": "text/csv"
