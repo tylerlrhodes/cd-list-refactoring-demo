@@ -71,6 +71,9 @@ class LinkedList(MutableSequence):
         #self.seq.insert(index, value)
 
     def __getitem__(self, index):
+        if isinstance(index, slice):
+            return [self[ii] for ii in range(*index.indices(len(self)))]
+
         if index > len(self) - 1:
             # this appears to be required when sorted is called
             # on the LinkedList!

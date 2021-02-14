@@ -4,30 +4,26 @@ import React, { Component } from 'react'
 
 
 const PaginateComponent = (props) => {
-  const {total, perPage, currentPage, onPageChange} = props;
-  const totalPages = total / perPage;
+  const {totalPages, currentPage, onPageChange} = props;
 
-  function* startPageGenerator() {
-    let begin = 1;
-    yield begin;
-    while (true) {
-      yield begin += perPage;
-    }
+  let start = 1
+  if (currentPage < 4) {
+    start = 1
   }
-
-  var gen = startPageGenerator();
-
-  let potential = gen.next().value;
-  while (potential + (perPage - 1) < currentPage) {
-    potential = gen.next().value;
+  else if (currentPage % 3 === 0) {
+    start = currentPage - 2
   }
-
+  else {
+    start = currentPage - (currentPage % 3) + 1
+  }
+  //console.log("start: " + start + " total pages: " + totalPages)
   const pages = [];
-  for (let i = potential; 
-       i < potential + perPage &&
-       i <= totalPages + 1; 
+  for (let i = start; 
+       i < start + 3 &&
+       i <= totalPages; 
        i++) {
-    pages.push(<li className="page-item">
+    let active = i === currentPage ? " active" : ""
+    pages.push(<li className={"page-item" + active}>
       <button className="page-link" href="/GetCDs"
        onClick={() => { onPageChange(i) }}>{i}</button></li>)
   }
@@ -41,8 +37,8 @@ const PaginateComponent = (props) => {
   const prevDisabled = (currentPage - 1 === 0 ? true : false)
   return <div>
     <nav aria-label="Page navigation example">
-      <span>{currentPage}</span><br />
-      <ul class="pagination">
+      {/* <span>{currentPage}</span><br /> */}
+      <ul className="pagination">
         <li className={"page-item" + (prevDisabled ? " disabled" : "")}>
           <button disabled={prevDisabled} className="page-link" 
            onClick={() => onPageChange(currentPage - 1)}>Previous</button></li>
@@ -59,31 +55,32 @@ class CDListView extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { curPage: 1 }
     this.pageChange = this.pageChange.bind(this)
   }
 
   pageChange(page) {
-    this.setState({ curPage: page})
+    this.props.onPageChange(page)
   }
 
   render() {
     return (
       <div className="row">
         <div className="col-12">
-          <PaginateComponent total={this.props.cds.length} perPage={10} currentPage={this.state.curPage}
-           onPageChange={this.pageChange} />
+          <PaginateComponent totalPages={this.props.totalPages} 
+           perPage={this.props.perPage} 
+           currentPage={this.props.currentPage}
+           onPageChange={(p) => this.pageChange(p)} />
           <table className="table table-bordered">
-            <thead className="thead-dark">
+            <thead className="thead-light">
               <tr>
-                <th>Artist</th>
-                <th>Title</th>
-                <th>Year</th>
+                <th><span className="btn btn-link">Artist</span></th>
+                <th><span className="btn btn-link">Title</span></th>
+                <th><span className="btn btn-link">Year</span></th>
               </tr>
             </thead>
             <tbody>
               {this.props.cds
-                .slice((this.state.curPage - 1) * 10, (this.state.curPage - 1) * 10 + 10)
+                // .slice((this.state.curPage - 1) * 10, (this.state.curPage - 1) * 10 + 10)
                 .map((val, idx) => {
                 return <tr key={idx}>
                   <td>{val[0]}</td>
