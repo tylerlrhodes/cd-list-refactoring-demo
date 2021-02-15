@@ -31,6 +31,7 @@ store.append(MusicCD("Dave Matthews Band", "Under the Table and Dreaming", 2002,
 
 def sort_helper(item, column):
     """ Help pick the sort key """
+    column = column.lower()
     if column == 'artist':
         return item.artist
     if column == 'title':
@@ -39,18 +40,21 @@ def sort_helper(item, column):
 
 @app.route('/GetCDS')
 @app.route('/GetCDS/<int:page>')
-@app.route('/GetCDS/<int:page>/<string:sort_column>')
-def get_cds(page = None, sort_column = 'artist'):
+@app.route('/GetCDS/<int:page>/<string:sort_column>/<int:sort_direction>')
+def get_cds(page = None, sort_column = 'artist', sort_direction = 1):
     """ API Endpoint for getting CD List """
     if page is None:
         page = 0
+    reverse = False
+    if sort_direction == 2:
+        reverse = True
     total_pages = ceil(len(store) / CDS_PER_PAGE)
     start = page * CDS_PER_PAGE
     end = page * CDS_PER_PAGE + CDS_PER_PAGE
 
     sorted_store = sorted(store,
                           key=lambda x: sort_helper(x, sort_column), 
-                          reverse=False)
+                          reverse=reverse)
     sorted_page = sorted_store[start:end]
     cd_list = []
     for cd in sorted_page:
@@ -58,7 +62,9 @@ def get_cds(page = None, sort_column = 'artist'):
 
     returnVal = {'total_pages':total_pages, 
                  'cd_list':cd_list,
-                 'per_page':CDS_PER_PAGE}
+                 'per_page':CDS_PER_PAGE,
+                 'sort_column': sort_column,
+                 'sort_direction': sort_direction}
 
     return jsonify(returnVal)
 

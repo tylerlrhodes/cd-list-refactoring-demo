@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
-
+import Glyphicon from '@strongdm/glyphicon'
+import uuid from 'react-uuid'
 
 
 const PaginateComponent = (props) => {
@@ -23,7 +23,7 @@ const PaginateComponent = (props) => {
        i <= totalPages; 
        i++) {
     let active = i === currentPage ? " active" : ""
-    pages.push(<li className={"page-item" + active}>
+    pages.push(<li key={uuid()} className={"page-item" + active}>
       <button className="page-link" href="/GetCDs"
        onClick={() => { onPageChange(i) }}>{i}</button></li>)
   }
@@ -51,17 +51,50 @@ const PaginateComponent = (props) => {
   </div>
 }
 
+const SortHeader = ({name, arrowStatus, sortChangeFn}) => {
+
+  function sortChange() {
+    //console.log("sortChangeFn... huh?")
+    let newArrowDirection = 
+      arrowStatus === 1 ? 2 : 
+      arrowStatus === 2 ? 1 : 1
+
+    sortChangeFn(name, newArrowDirection)
+  }
+  const showArrow = arrowStatus > 0
+  const arrow = arrowStatus === 1 ? "arrow-up" : "arrow-down"
+  return <span
+    className="btn btn-link"
+    onClick={() => sortChange()}>
+      {name}
+    {showArrow && <Glyphicon glyph={arrow} />}
+  </span>
+}
+
 class CDListView extends Component {
 
   constructor(props) {
     super(props)
     this.pageChange = this.pageChange.bind(this)
+    this.sortChange = this.sortChange.bind(this)
+  }
+
+  sortChange(name, arrowStatus) {
+    //console.log("CDListView sortChange")
+    this.props.onSortChange(name, arrowStatus)
   }
 
   pageChange(page) {
     this.props.onPageChange(page)
   }
 
+  getArrowStatus(name) {
+    //console.log("columnName = " + name + " sortDirection = " + this.props.sortDirection)
+    if (this.props.sortColumn.toUpperCase() === name.toUpperCase()) {
+      return this.props.sortDirection
+    }
+    return 0
+  }
   render() {
     return (
       <div className="row">
@@ -73,9 +106,21 @@ class CDListView extends Component {
           <table className="table table-bordered">
             <thead className="thead-light">
               <tr>
-                <th><span className="btn btn-link">Artist</span></th>
-                <th><span className="btn btn-link">Title</span></th>
-                <th><span className="btn btn-link">Year</span></th>
+                <th>
+                  <SortHeader name="Artist" 
+                   arrowStatus={this.getArrowStatus("Artist")}
+                   sortChangeFn={this.sortChange}/>
+                </th>
+                <th>
+                  <SortHeader name="Title" 
+                   arrowStatus={this.getArrowStatus("title")}
+                   sortChangeFn={this.sortChange}/>
+                </th>
+                <th>
+                  <SortHeader name="Year" 
+                   arrowStatus={this.getArrowStatus("year")}
+                   sortChangeFn={this.sortChange}/>
+                </th>
               </tr>
             </thead>
             <tbody>
