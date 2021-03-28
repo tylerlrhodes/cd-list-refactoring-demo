@@ -26,9 +26,9 @@ CDS_PER_PAGE = 10
 app.config['UPLOAD_FOLDER'] = Path(UPLOAD_FOLDER)
 
 store = ThreadSafeListStore(LinkedList(None))
-store.append(MusicCD("Radiohead", "Kid A", 2006, 0))
-store.append(MusicCD("Radiohead", "The Bends", 2006, 1))
-store.append(MusicCD("Dave Matthews Band", "Under the Table and Dreaming", 2002, 2))
+store.append(MusicCD("Radiohead", "Kid A", "2006", 0))
+store.append(MusicCD("Radiohead", "The Bends", "2006", 1))
+store.append(MusicCD("Dave Matthews Band", "Under the Table and Dreaming", "2002", 2))
 
 def sort_helper(item, column):
     """ Help pick the sort key """
