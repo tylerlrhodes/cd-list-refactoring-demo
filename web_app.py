@@ -15,7 +15,8 @@ from list_store import ThreadSafeListStore
 from music_cd import MusicCD
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"*": {"origins": "*"}})
+#cors = CORS(app, resources={r"*": {"origins": "*"}})
+CORS(app)
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'csv'}
