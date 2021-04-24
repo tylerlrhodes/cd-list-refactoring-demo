@@ -1,7 +1,9 @@
 """ MusicCD Item For Linked List """
 
+
 class MusicCD:
     """ Music CD Item for Linked LIst """
+
     def __init__(self, artist, title, year, cdid):
         self.artist = artist
         self.title = title
@@ -22,4 +24,3 @@ class MusicCD:
     def display(self):
         """ Display Music Item """
         return f"{self.title} by {self.artist} from {self.year}"
-        

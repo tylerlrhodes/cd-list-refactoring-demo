@@ -3,11 +3,13 @@
 from collections.abc import MutableSequence
 from wrapt import synchronized
 
+
 class ListStore(MutableSequence):
     """ List Store """
-    def __init__(self, seq = None,
-                 sort_method = sorted, key_selector = lambda x: x,
-                 reverse = False):
+
+    def __init__(self, seq=None,
+                 sort_method=sorted, key_selector=lambda x: x,
+                 reverse=False):
         self.seq = seq
         self.sort_method = sort_method
         self.key_selector = key_selector
@@ -35,10 +37,11 @@ class ListStore(MutableSequence):
 
 class ThreadSafeListStore(ListStore):
     """ Thread Safe List Store """
+
     @synchronized
-    def __init__(self, seq = None,
-                 sort_method = sorted, key_selector = lambda x: x,
-                 reverse = False):
+    def __init__(self, seq=None,
+                 sort_method=sorted, key_selector=lambda x: x,
+                 reverse=False):
         super().__init__(seq, sort_method, key_selector, reverse)
 
     @synchronized
